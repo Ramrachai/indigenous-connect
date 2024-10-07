@@ -12,14 +12,11 @@ You can access the live version of the application at [iconnect.ramrachai.com](h
 
 Indigenous Connect is built using modern web technologies, including:
 
-- **Next.js 14**: A React framework that enables server-side rendering and static site generation, enhancing performance and SEO.
-- **ShadCN**: A UI component library for building user interfaces efficiently.
-- **Zod**: A TypeScript-first schema declaration and validation library for validating inputs and data structures.
-- **Tailwind CSS**: A utility-first CSS framework that allows for rapid UI design and development.
-- **React Hook Form**: A library that simplifies form handling in React applications, providing better performance and validation.
-- **Next Auth**: A complete authentication solution for Next.js applications, allowing for easy integration of various authentication providers.
-- **TypeScript**: A statically typed superset of JavaScript that helps in writing safer and more maintainable code.
-- **pnpm**: A fast, disk space-efficient package manager for Node.js.
+| Technologies      |                   |                   |                   |
+|-------------------|-------------------|-------------------|-------------------|
+| Next.js 14        | ShadCN            | Zod               | Tailwind CSS      |
+| React Hook Form   | Next Auth         | TypeScript        | pnpm              |
+
 
 ## Features
 
