@@ -15,8 +15,8 @@ const roboto = Roboto({
 
 
 export const metadata: Metadata = {
-  title: "Ramrachai Marma Portfolio",
-  description: "Senior Fullstack JavaScript Developer from Bangladesh",
+  title: "Indigenous connect",
+  description: "Uniting the Indigenous Community of Bangladesh",
 };
 
 export default function RootLayout({
