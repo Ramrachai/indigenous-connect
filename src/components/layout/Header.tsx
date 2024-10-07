@@ -51,7 +51,6 @@ export function Header() {
 
   if (!session) return null
 
-
   const handleSignOut = async () => {
     const data = await signOut({ redirect: false, callbackUrl: '/' });
     router.push(data.url);
