@@ -23,9 +23,11 @@ import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
 import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
 export function Header() {
   const { data: session } = useSession()
+  const router = useRouter();
   console.log("---user info --", session?.user)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
 
@@ -48,6 +50,12 @@ export function Header() {
   ]
 
   if (!session) return null
+
+
+  const handleSignOut = async () => {
+    const data = await signOut({ redirect: false, callbackUrl: '/' });
+    router.push(data.url);
+  };
 
   return (
     <header className="bg-white shadow-sm">
@@ -167,7 +175,7 @@ export function Header() {
                   <Link href="/profile">Profile Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/', redirect: false })}>
+                <DropdownMenuItem onClick={handleSignOut}>
                   Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
