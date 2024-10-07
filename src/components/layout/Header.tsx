@@ -167,7 +167,7 @@ export function Header() {
                   <Link href="/profile">Profile Settings</Link>
                 </DropdownMenuItem>
                 <DropdownMenuSeparator />
-                <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/', redirect: true })}>
+                <DropdownMenuItem onClick={() => signOut({ callbackUrl: '/', redirect: false })}>
                   Log out
                 </DropdownMenuItem>
               </DropdownMenuContent>
