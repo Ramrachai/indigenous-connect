@@ -3,7 +3,6 @@
 import Link from 'next/link'
 import { useSession, signOut } from 'next-auth/react'
 import { Button } from '@/components/ui/button'
-import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import {
   DropdownMenu,
   DropdownMenuContent,
@@ -23,6 +22,7 @@ import {
 import { Sheet, SheetContent, SheetTrigger } from '@/components/ui/sheet'
 import { Menu, X } from 'lucide-react'
 import { useState } from 'react'
+import Image from 'next/image'
 
 export function Header() {
   const { data: session } = useSession()
@@ -47,7 +47,7 @@ export function Header() {
     },
   ]
 
-  if(!session) return null 
+  if (!session) return null
 
   return (
     <header className="bg-white shadow-sm">
@@ -148,12 +148,9 @@ export function Header() {
           {session ? (
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
-                <Button variant="ghost" className="relative h-8 w-8 rounded-full">
-                  <Avatar className="h-8 w-8">
-                    <AvatarImage className='object-cover' src={session.user?.avatar || ''} alt={session.user?.fullname || ''} />
-                    <AvatarFallback>{session.user.fullname?.[0]}</AvatarFallback>
-                  </Avatar>
-                </Button>
+                <div className='w-8 h-8 rounded-full overflow-hidden border shadow hover:cursor-pointer hover:shadow-lg'>
+                  <Image className='object-cover' src={session.user?.avatar || ""} alt={session.user?.fullname || ''} height={40} width={40} />
+                </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">

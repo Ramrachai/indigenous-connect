@@ -56,12 +56,12 @@ const authOptions: NextAuthOptions = {
                 if (res.ok && user) {
                     return {
                         id: user.id,
-                        fullname: user.fullane, // Note: 'fullane' is likely a typo in the API response
+                        fullname: user.fullname, 
                         email: user.email,
                         avatar: user.avatar,
                         whatsapp: user.whatsapp,
                         token: user.token,
-                        role: user.role // Assuming role is part of the response
+                        role: user.role 
                     }
                 }
                 return null

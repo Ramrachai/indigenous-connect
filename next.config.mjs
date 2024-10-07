@@ -6,6 +6,11 @@ const nextConfig = {
                 protocol: 'https',
                 hostname: 'picsum.photos',
             },
+
+            {
+                protocol: 'https',
+                hostname: 'indigenous-connect.s3.ap-south-1.amazonaws.com',
+            },
         ],
     },
 };

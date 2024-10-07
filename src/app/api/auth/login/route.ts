@@ -2,7 +2,6 @@ import { NextResponse } from 'next/server'
 
 export async function POST(request: Request) {
     const { username, password } = await request.json()
-    console.log("--login--", username, password)
 
     // In a real application, you would check these credentials against a database
     if (username === 'admin' && password === 'password') {
@@ -13,6 +12,6 @@ export async function POST(request: Request) {
 }
 
 export async function GET(request: Request) {
-    console.log("--get route hit--")
+
     return NextResponse.json({ message: "Working" })
 }

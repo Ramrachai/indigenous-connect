@@ -12,15 +12,17 @@ You can access the live version of the application at [iconnect.ramrachai.com](h
 
 Indigenous Connect is built using modern web technologies, including:
 
-| Frontend              | Backend                | Infrastructure         |
-|-----------------------|-----------------------|--------------------------|
-| Next.js 14            | Express.js (TypeScript)| AWS EC2                  |
-| ShadCN                | MongoDB               | AWS S3                   |
-| Zod                   | JSON Web Token (JWT)  | Nginx                    |
-| Tailwind CSS          | Multer                |                          |
-| React Hook Form       | Nodemailer            |                          |
-| Next Auth             | Zod                   |                          |
-| TypeScript            | pnpm                  |                          |
+| Frontend              | Backend                | Infrastructure  | CI/CD                          |
+|-----------------------|------------------------|-----------------|-------------------------------|
+| Next.js 14            | Express.js (TypeScript)| AWS EC2         | GitHub Action (Self-hosted runner) |
+| ShadCN                | MongoDB                | AWS S3          |                               |
+| Zod                   | Zod                    | Nginx           |                               |
+| Tailwind CSS          | Multer                 |                 |                               |
+| React Hook Form       | Nodemailer             |                 |                               |
+| Next Auth             | JSON Web Token (JWT)   |                 |                               |
+| TypeScript            | pnpm                   |                 |                               |
+
+
 
 
 
@@ -61,6 +63,13 @@ To set up the project locally, follow these steps:
    ```
 
    The application should now be running on [http://localhost:3000](http://localhost:3000).
+
+# Note
+This project might not have the most cutting-edge code you'll find online, but it works! My goal here isn’t to create something revolutionary or to write the most efficient, scalable, or high-quality code ever. Instead, the main focus is to encourage members of the indigenous community to contribute—even if it’s just a single line of code.
+
+I’m keeping things simple and accessible. You won’t find overly complex tech stacks, advanced coding techniques, or intricate abstractions here. I avoid creating too much reusable code or forcing people to dig through endless folders just to make a simple service. I try to keep all related code in one file or close by. The idea is to make it easy for anyone with basic coding skills to jump in and contribute.
+
+Oh, and feel free to use AI tools for coding assistance! The goal is to create something together, no matter how big or small your contribution may be.
 
 ## Contributing
 

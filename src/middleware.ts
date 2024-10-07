@@ -28,10 +28,6 @@ export async function middleware(req: NextRequest) {
         );
     }
 
-    // Optional: Check for specific roles or permissions
-    if (req.nextUrl.pathname.startsWith('/admin') && token?.role !== 'admin') {
-        return NextResponse.redirect(new URL('/', req.url))
-    }
 }
 
 export const config = {

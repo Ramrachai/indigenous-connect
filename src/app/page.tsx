@@ -1,92 +1,111 @@
+"use client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageCircle, Bell, Lightbulb, Image as ImageIcon, Video, Headphones, FileText, Users } from 'lucide-react'
+import { MessageCircle, Bell, Lightbulb, Image as ImageIcon, Video, Headphones, FileText, Users, ArrowRight } from 'lucide-react'
 import Link from 'next/link'
-import Banner1 from "@/assets/banner1.jpg"
 import Image from 'next/image'
+import { useState } from 'react'
+import banner1 from "@/assets/banner1.jpg"
 
 export default function HomePage() {
+  const [activeFeature, setActiveFeature] = useState(0)
+
+  const features = [
+    { icon: <Users className="h-6 w-6 text-primary" />, title: "Community Posts", description: "Share and engage with posts from the community" },
+    { icon: <MessageCircle className="h-6 w-6 text-primary" />, title: "Chat", description: "Connect with other members through real-time chat" },
+    { icon: <Bell className="h-6 w-6 text-primary" />, title: "Notice Board", description: "Stay updated with important announcements" },
+    { icon: <Lightbulb className="h-6 w-6 text-primary" />, title: "Ideas", description: "Share and explore innovative ideas for the community" },
+  ]
+
   return (
     <div className="min-h-screen ">
-
-      <main className="w-[80%] mx-auto px-4 py-8">
-        <section className="text-center mb-12">
-          <h2 className="text-4xl font-bold mb-4">Welcome to Indigenous Connect</h2>
-          <p className="text-xl mb-6">Uniting the Indigenous Community of Bangladesh</p>
-          <Button size="lg" asChild>
-            <Link href={"/login"}>Join Our Community</Link>
+      <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <section className="text-center py-20 mb-12">
+          <h1 className="text-5xl font-bold mb-4 text-primary">Welcome to Indigenous Connect</h1>
+          <p className="text-xl mb-8 text-muted-foreground">Uniting the Indigenous Community of Bangladesh</p>
+          <Button size="lg" asChild className="rounded-full">
+            <Link href="/register">Join Our Community <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
         </section>
 
-        <section id="features" className="mb-12">
-          <h3 className="text-2xl font-semibold mb-6 text-center">Our Features</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <FeatureCard
-              icon={<Users className="h-4 w-4 text-cyan-500" />}
-              title="Community Posts"
-              description="Share and engage with posts from the community"
-            />
-            <FeatureCard
-              icon={<MessageCircle className="h-4 w-4 text-cyan-500" />}
-              title="Chat"
-              description="Connect with other members through real-time chat"
-            />
-            <FeatureCard
-              icon={<Bell className="h-4 w-4 text-cyan-500" />}
-              title="Notice Board"
-              description="Stay updated with important announcements"
-            />
-            <FeatureCard
-              icon={<Lightbulb className="h-4 w-4 text-cyan-500" />}
-              title="Ideas"
-              description="Share and explore innovative ideas for the community"
-            />
-          </div>
-        </section>
 
-        <section className="mb-12">
-          <h3 className="text-2xl font-semibold mb-6 text-center">Media Sharing</h3>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-            <FeatureCard
-              icon={<ImageIcon className="h-4 w-4 text-emerald-500" />}
-              title="Image Sharing"
-              description="Share your photos with the community"
-            />
-            <FeatureCard
-              icon={<Video className="h-4 w-4 text-emerald-500" />}
-              title="Video Sharing"
-              description="Upload and watch community videos"
-            />
-            <FeatureCard
-              icon={<Headphones className="h-4 w-4 text-emerald-500" />}
-              title="Audio Sharing"
-              description="Share music and audio recordings"
-            />
-            <FeatureCard
-              icon={<FileText className="h-4 w-4 text-emerald-500" />}
-              title="Document Sharing"
-              description="Upload and download important documents"
-            />
-          </div>
-        </section>
-
-        <section id="about" className="mb-12">
-          <Card className='border-0'>
-            <CardHeader>
-              <CardTitle className='text-center'>About Indigenous Connect</CardTitle>
-            </CardHeader>
-            <CardContent className='flex gap-8 items-center justify-center'>
-              <p>Indigenous Connect is a platform dedicated to uniting the indigenous community of Bangladesh. Our mission is to provide a space for sharing, learning, and preserving our rich cultural heritage while addressing the unique challenges and opportunities faced by our community.</p>
-              <Image src={Banner1} height={400} width={600} alt='indigenous people of Bangladesh' className='rounded-lg shadow-lg' />
+        <section id="about" className="mb-20">
+          <Card className="overflow-hidden">
+            <CardContent className="p-0">
+              <div className="grid grid-cols-1 md:grid-cols-2">
+                <div className="p-8">
+                  <h2 className="text-3xl font-semibold mb-4">About Indigenous Connect</h2>
+                  <p className="text-muted-foreground mb-4">
+                    Indigenous Connect is a platform dedicated to uniting the indigenous community of Bangladesh. Our mission is to provide a space for sharing, learning, and preserving our rich cultural heritage while addressing the unique challenges and opportunities faced by our community.
+                  </p>
+                  <Button asChild>
+                    <Link href="/about">Learn More</Link>
+                  </Button>
+                </div>
+                <div className="relative h-64 md:h-auto">
+                  <Image
+                    src={banner1}
+                    layout="fill"
+                    objectFit="cover"
+                    alt="Indigenous people of Bangladesh"
+                    className="rounded-b-lg md:rounded-r-lg md:rounded-bl-none"
+                  />
+                </div>
+              </div>
             </CardContent>
           </Card>
         </section>
 
-        <section id="contact" className="text-center">
-          <h3 className="text-2xl font-semibold mb-4">Get in Touch</h3>
-          <p className="mb-4">Have questions or suggestions? We'd love to hear from you!</p>
-          <Button asChild>
-            <a href="mailto:ramrachaim@gmail.com">Contact Us</a>
+        <section id="features" className="mb-20">
+          <h2 className="text-3xl font-semibold mb-10 text-center">Our Features</h2>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="space-y-4">
+              {features.map((feature, index) => (
+                <Card
+                  key={index}
+                  className={`cursor-pointer transition-all duration-300 ${activeFeature === index ? 'border-stone-400 shadow-lg' : 'hover:border-stone-400'}`}
+                  onClick={() => setActiveFeature(index)}
+                >
+                  <CardHeader>
+                    <CardTitle className="flex items-center text-base">
+                      {feature.icon}
+                      <span className="ml-2">{feature.title}</span>
+                    </CardTitle>
+                  </CardHeader>
+                  <CardContent>
+                    <CardDescription>{feature.description}</CardDescription>
+                  </CardContent>
+                </Card>
+              ))}
+            </div>
+            <div className="hidden md:block">
+              <Card className="h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
+                <CardContent className="text-center p-8">
+                  <div className="text-6xl mb-4">{features[activeFeature].icon}</div>
+                  <h3 className="text-2xl font-semibold mb-2">{features[activeFeature].title}</h3>
+                  <p className="text-muted-foreground">{features[activeFeature].description}</p>
+                </CardContent>
+              </Card>
+            </div>
+          </div>
+        </section>
+
+        <section className="mb-20">
+          <h2 className="text-xl font-semibold mb-10 text-center">Media Sharing</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <MediaCard icon={<ImageIcon className="h-8 w-8 text-emerald-500" />} title="Image Sharing" description="Share your photos with the community" />
+            <MediaCard icon={<Video className="h-8 w-8 text-emerald-500" />} title="Video Sharing" description="Upload and watch community videos" />
+            <MediaCard icon={<Headphones className="h-8 w-8 text-emerald-500" />} title="Audio Sharing" description="Share music and audio recordings" />
+            <MediaCard icon={<FileText className="h-8 w-8 text-emerald-500" />} title="Document Sharing" description="Upload and download important documents" />
+          </div>
+        </section>
+
+
+        <section id="contact" className="text-center py-20">
+          <h2 className="text-3xl font-semibold mb-4">Get in Touch</h2>
+          <p className="text-xl text-muted-foreground mb-8">Have questions or suggestions? We'd love to hear from you!</p>
+          <Button size="lg" asChild className="rounded-full">
+            <a href="mailto:ramrachaim@gmail.com">Contact Us <ArrowRight className="ml-2 h-4 w-4" /></a>
           </Button>
         </section>
       </main>
@@ -94,14 +113,14 @@ export default function HomePage() {
   )
 }
 
-function FeatureCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
+function MediaCard({ icon, title, description }: { icon: React.ReactNode, title: string, description: string }) {
   return (
-    <Card>
+    <Card className="text-center hover:shadow-lg transition-shadow duration-300">
       <CardHeader>
-        <CardTitle className="flex items-center">
+        <div className="mx-auto bg-emerald-100 rounded-full p-3 mb-4">
           {icon}
-          <span className="ml-2 text-lg">{title}</span>
-        </CardTitle>
+        </div>
+        <CardTitle className='text-base'>{title}</CardTitle>
       </CardHeader>
       <CardContent>
         <CardDescription>{description}</CardDescription>
