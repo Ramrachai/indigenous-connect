@@ -12,10 +12,16 @@ You can access the live version of the application at [iconnect.ramrachai.com](h
 
 Indigenous Connect is built using modern web technologies, including:
 
-| Technologies      |                   |                   |                   |
-|-------------------|-------------------|-------------------|-------------------|
-| Next.js 14        | ShadCN            | Zod               | Tailwind CSS      |
-| React Hook Form   | Next Auth         | TypeScript        | pnpm              |
+| Frontend              | Backend                | Infrastructure         |
+|-----------------------|-----------------------|--------------------------|
+| Next.js 14            | Express.js (TypeScript)| AWS EC2                  |
+| ShadCN                | MongoDB               | AWS S3                   |
+| Zod                   | JSON Web Token (JWT)  | Nginx                    |
+| Tailwind CSS          | Multer                |                          |
+| React Hook Form       | Nodemailer            |                          |
+| Next Auth             | Zod                   |                          |
+| TypeScript            | pnpm                  |                          |
+
 
 
 ## Features
