@@ -1,38 +1,26 @@
-// src/app/api/auth/[...nextauth]/route.ts
 import NextAuth, { NextAuthOptions, DefaultUser } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { API_URL } from "@/config/api"
 
 declare module "next-auth" {
+    interface IUser {
+        id: string;
+        fullname: string;
+        email: string;
+        avatar: string;
+        whatsapp: string;
+        token: string;
+        role: string;
+        status: "active" | "inactive" | "pending" | "suspended";
+    }
+
     interface Session {
-        user: DefaultUser & {
-            id: string;
-            fullname: string;
-            email: string;
-            avatar: string;
-            whatsapp: string;
-            token: string;
-            role?: string;
-        }
+        user: DefaultUser & IUser;
     }
-    interface User extends DefaultUser {
-        id: string;
-        fullname: string;
-        email: string;
-        avatar: string;
-        whatsapp: string;
-        token: string;
-        role?: string;
-    }
-    interface JWT {
-        id: string;
-        fullname: string;
-        email: string;
-        avatar: string;
-        whatsapp: string;
-        token: string;
-        role?: string;
-    }
+
+    interface User extends DefaultUser, IUser { }
+
+    interface JWT extends IUser { }
 }
 
 const authOptions: NextAuthOptions = {
@@ -52,6 +40,7 @@ const authOptions: NextAuthOptions = {
                     headers: { "Content-Type": "application/json" }
                 })
                 const user = await res.json()
+                console.log("--login user --", user)
 
                 if (res.ok && user) {
                     return {
@@ -61,7 +50,8 @@ const authOptions: NextAuthOptions = {
                         avatar: user.avatar,
                         whatsapp: user.whatsapp,
                         token: user.token,
-                        role: user.role 
+                        role: user.role,
+                        status: user.status 
                     }
                 }
                 return null
@@ -81,6 +71,7 @@ const authOptions: NextAuthOptions = {
                 token.whatsapp = user.whatsapp
                 token.token = user.token
                 token.role = user.role
+                token.status = user.status
             }
             return token
         },
@@ -92,8 +83,11 @@ const authOptions: NextAuthOptions = {
                 avatar: token.avatar,
                 whatsapp: token.whatsapp,
                 token: token.token,
-                role: token.role
+                role: token.role,
+                status: token.status
             } as any
+
+            console.log(session)
             return session
         }
     }

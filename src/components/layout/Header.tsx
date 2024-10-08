@@ -156,14 +156,18 @@ export function Header() {
             <DropdownMenu>
               <DropdownMenuTrigger asChild>
                 <div className='w-8 h-8 rounded-full overflow-hidden border shadow hover:cursor-pointer hover:shadow-lg'>
-                  <Image className='object-cover' src={session.user?.avatar || ""} alt={session.user?.fullname || ''} height={40} width={40} />
+                  <Image className='object-cover w-full h-full' src={session.user?.avatar || ""} alt={session.user?.fullname || ''} height={40} width={40} />
                 </div>
               </DropdownMenuTrigger>
               <DropdownMenuContent className="w-56" align="end" forceMount>
                 <DropdownMenuLabel className="font-normal">
-                  <div className="flex flex-col space-y-1">
+                  <div className="flex flex-col space-y-1 gap-1">
                     <p className="text-sm font-medium leading-none">{session.user?.fullname}</p>
                     <p className="text-xs leading-none text-muted-foreground">{session.user?.email}</p>
+                    <p className="text-xs leading-none text-muted-foreground flex justify-between gap-1 flex-wrap">
+                      <span>Role: {session.user?.role}</span>
+                      <span>Status: {session.user?.status}</span>
+                    </p>
                   </div>
                 </DropdownMenuLabel>
                 <DropdownMenuSeparator />
