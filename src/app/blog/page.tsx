@@ -88,13 +88,13 @@ export default function SocialBlogPage() {
         <div className="container mx-auto py-6 px-4">
             <div className='flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center mb-6'>
                 <Tabs defaultValue="All" className='w-full md:w-auto'>
-                    <TabsList className="flex flex-wrap">
+                    <TabsList className="flex gap-2 overflow-x-auto scrollbar-hide">
                         {categories.map(category => (
                             <TabsTrigger
                                 key={category}
                                 value={category}
                                 onClick={() => handleCategoryChange(category)}
-                                className="px-3 py-1 text-sm"
+                                className="py-1 text-sm whitespace-nowrap"
                             >
                                 {category}
                             </TabsTrigger>
@@ -117,6 +117,7 @@ export default function SocialBlogPage() {
                     <Button variant="default" size="icon"><Search size={16} /></Button>
                 </div>
             </div>
+
 
 
 

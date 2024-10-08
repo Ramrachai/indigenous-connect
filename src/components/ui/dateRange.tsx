@@ -22,8 +22,6 @@ export function DatePickerWithRange({
         to: new Date(),
     })
 
-    console.log('--date--', date)
-
     return (
         <div className={cn("grid gap-2", className)}>
             <Popover>
@@ -32,14 +30,14 @@ export function DatePickerWithRange({
                         id="date"
                         variant={"outline"}
                         className={cn(
-                            "w-[300px] justify-start text-left font-normal",
+                            "w-full md:w-auto justify-start text-left font-normal",
                             !date && "text-muted-foreground"
                         )}
                     >
                         <CalendarIcon className="mr-2 h-4 w-4" />
                         {date?.from ? (
                             date.to ? (
-                                <div className="flex gap-4">
+                                <div className="flex gap-4 text-xs md:text-sm">
                                     <p><b>Start:</b> <span className="text-cyan-600"> {format(date.from, "LLL dd, y")} </span> </p>
                                     <p><b> End:</b> <span className="text-cyan-600">{format(date.to, "LLL dd, y")}</span></p>
                                 </div>
