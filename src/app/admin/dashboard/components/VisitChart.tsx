@@ -44,39 +44,9 @@ const VisitChart = () => {
     return (
         <Card className="mb-8 w-full">
             <CardHeader>
-                <CardTitle className='text-center'>Visit Statistics</CardTitle>
+                <CardTitle className='text-left text-lg md:text-2xl'>Visit Statistics</CardTitle>
                 <CardTitle className="flex gap-6 items-center justify-between">
-                    {/* <div>
-                        <Popover>
-                            <PopoverTrigger asChild>
-                                <span>
-                                    <Button variant={'default'} size={'sm'}>
-                                        <Calendar size={14} className="mr-4" /> Select date range
-                                    </Button>
-                                </span>
-                            </PopoverTrigger>
-                            <PopoverContent>
-                                <DateRangeCalender
-                                    dateRange={dateRange}
-                                    setDateRange={setDateRange}
-                                />
-                            </PopoverContent>
-                        </Popover>
-                    </div>
-
-                    <div className="flex gap-4 text-base font-normal">
-                        <p>Showing Results for:</p>
-                        <p className='font-medium'>
-                            {dateRange[0].startDate?.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-                        </p>
-                        <p> - to - </p>
-                        <p className='font-medium'>
-                            {dateRange[0].endDate?.toLocaleDateString('en-GB', { year: 'numeric', month: 'long', day: 'numeric' })}
-                        </p>
-                    </div> */}
-
                     <DatePickerWithRange />
-
                 </CardTitle>
             </CardHeader>
             <CardContent>
