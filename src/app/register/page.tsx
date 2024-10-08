@@ -110,7 +110,7 @@ export default function RegisterForm() {
 
   return (
     <div className="flex justify-center flex-col gap-2 items-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-50">
-      <Link href={"/"} className='flex gap-3 text-sm text-gray-400 hover:text-gray-700 hover:underline'><ArrowLeftIcon /> Back to home</Link>
+      <Link href={"/"} className='flex gap-3 text-sm text-gray-400 hover:text-gray-700 hover:underline mt-6'><ArrowLeftIcon /> Back to home</Link>
 
       <div className="w-full max-w-4xl p-8 bg-white rounded-lg shadow-xl flex flex-col md:flex-row">
         <div className="md:w-1/2 mb-8 md:mb-0 md:mr-8">
@@ -123,7 +123,7 @@ export default function RegisterForm() {
             height={400}
             className="rounded-lg shadow-md mx-auto"
           />
-          <p className='text-sm mt-6 sm:mt-10 text-center'>Already have an account ? <Link href={'/login'} className='hover:underline hover:text-sky-600'>Login here</Link> </p>
+          <p className='text-sm mt-6 sm:mt-10 text-center'>Already have an account ? <Link href={'/login'} className='underline hover:text-blue-500'>Login here</Link> </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="md:w-1/2 space-y-6">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

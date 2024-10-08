@@ -54,7 +54,7 @@ export default function LoginForm() {
 
   return (
     <div className="flex flex-col gap-2 justify-center items-center min-h-screen bg-gradient-to-r from-blue-50 to-purple-50">
-      <Link href={"/"} className='flex gap-3 text-sm text-gray-400 hover:text-gray-700 hover:underline'><ArrowLeftIcon /> Back to home</Link>
+      <Link href={"/"} className='flex gap-3 text-sm text-gray-400 hover:text-gray-700 hover:underline mt-6'><ArrowLeftIcon /> Back to home</Link>
       <div className="w-full max-w-4xl p-8 bg-white rounded-lg shadow-xl flex flex-col md:flex-row items-center">
         <div className="md:w-1/2 mb-8 md:mb-0 md:mr-8">
           <h2 className="text-3xl font-bold mb-6 text-center text-primary">Welcome Back</h2>
@@ -67,7 +67,7 @@ export default function LoginForm() {
             className="rounded-lg shadow-md mx-auto object-cover"
           />
         </div>
-        <div className="md:w-1/2">
+        <div className="w-full md:w-1/2">
           <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
@@ -107,10 +107,10 @@ export default function LoginForm() {
               )}
             </Button>
             <div className="flex justify-between text-sm">
-              <Link href="/forgot-password" className="text-primary hover:underline">
+              <Link href="/forgot-password" className="text-primary hover:underline hover:text-blue-500">
                 Forgot your password?
               </Link>
-              <Link href="/register" className="text-primary hover:underline">
+              <Link href="/register" className="text-primary hover:underline hover:text-blue-500">
                 Create an account
               </Link>
             </div>

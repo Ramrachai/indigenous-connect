@@ -1,7 +1,7 @@
 "use client"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
-import { MessageCircle, Bell, Lightbulb, Image as ImageIcon, Video, Headphones, FileText, Users, ArrowRight } from 'lucide-react'
+import { MessageCircle, Bell, Lightbulb, Image as ImageIcon, Video, Headphones, FileText, Users, ArrowRight, LogIn } from 'lucide-react'
 import Link from 'next/link'
 import Image from 'next/image'
 import { useState } from 'react'
@@ -11,11 +11,29 @@ export default function HomePage() {
   const [activeFeature, setActiveFeature] = useState(0)
 
   const features = [
-    { icon: <Users className="h-6 w-6 text-primary" />, title: "Community Posts", description: "Share and engage with posts from the community" },
-    { icon: <MessageCircle className="h-6 w-6 text-primary" />, title: "Chat", description: "Connect with other members through real-time chat" },
-    { icon: <Bell className="h-6 w-6 text-primary" />, title: "Notice Board", description: "Stay updated with important announcements" },
-    { icon: <Lightbulb className="h-6 w-6 text-primary" />, title: "Ideas", description: "Share and explore innovative ideas for the community" },
-  ]
+    {
+      icon: <Users className="h-6 w-6 text-primary" />,
+      title: "Posts",
+      description: "Join a dynamic platform where you can share insights and foster meaningful discussions with fellow members."
+    },
+    {
+      icon: <MessageCircle className="h-6 w-6 text-primary" />,
+      title: "Real-Time Chat",
+      description: "Establish connections with other members through instant messaging, facilitating prompt and effective communication."
+    },
+    {
+      icon: <Bell className="h-6 w-6 text-primary" />,
+      title: "Team Formation",
+      description: "Assemble your team and embark on collaborative projects—private groups provide an excellent foundation for collective achievement."
+    },
+    {
+      icon: <Lightbulb className="h-6 w-6 text-primary" />,
+      title: "Innovation Hub",
+      description: "Encourage creativity by sharing and exploring groundbreaking ideas that contribute to the growth of our community."
+    },
+  ];
+
+
 
   return (
     <div className="min-h-screen ">
@@ -23,6 +41,9 @@ export default function HomePage() {
         <section className="text-center py-20 mb-12">
           <h1 className="text-5xl font-bold mb-4 text-primary">Welcome to Indigenous Connect</h1>
           <p className="text-xl mb-8 text-muted-foreground">Uniting the Indigenous Community of Bangladesh</p>
+          <Button size="lg" asChild className="rounded-full mr-3">
+            <Link href="/login">Login <LogIn className="ml-2 h-4 w-4" /></Link>
+          </Button>
           <Button size="lg" asChild className="rounded-full">
             <Link href="/register">Join Our Community <ArrowRight className="ml-2 h-4 w-4" /></Link>
           </Button>
@@ -80,7 +101,7 @@ export default function HomePage() {
             </div>
             <div className="hidden md:block">
               <Card className="h-full flex items-center justify-center bg-gradient-to-br from-primary/10 to-primary/5">
-                <CardContent className="text-center p-8">
+                <CardContent className="text-center p-8 flex flex-col justify-center items-center">
                   <div className="text-6xl mb-4">{features[activeFeature].icon}</div>
                   <h3 className="text-2xl font-semibold mb-2">{features[activeFeature].title}</h3>
                   <p className="text-muted-foreground">{features[activeFeature].description}</p>
