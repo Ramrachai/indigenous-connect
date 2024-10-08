@@ -10,10 +10,9 @@ import { Badge } from '@/components/ui/badge'
 import { Tabs, TabsList, TabsTrigger } from '@/components/ui/tabs'
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar'
 import { Textarea } from '@/components/ui/textarea'
-import { Calendar, Clock, User, Tag, TrendingUp, Search, Zap, Share2, ThumbsUp, MessageCircle } from 'lucide-react'
+import { Calendar, Clock, User, Tag, TrendingUp, Search, Zap, Share2, ThumbsUp, MessageCircle, ChevronDown, ChevronUp } from 'lucide-react'
 import { samplePosts } from './data'
 import { DatePickerWithRange } from '@/components/ui/dateRange'
-
 
 const categories = ['All', 'Culture', 'Health', 'Environment', 'Art', 'Politics']
 
@@ -22,6 +21,8 @@ export default function SocialBlogPage() {
     const [searchQuery, setSearchQuery] = useState('')
     const [activeCategory, setActiveCategory] = useState('All')
     const [newComment, setNewComment] = useState('')
+    const [expandedComments, setExpandedComments] = useState<Record<string, boolean>>({})
+    const [commentPages, setCommentPages] = useState<Record<string, number>>({})
 
     useEffect(() => {
         const filteredPosts = samplePosts.filter(post =>
@@ -69,50 +70,71 @@ export default function SocialBlogPage() {
         }
     }
 
-    return (
-        <div className="container mx-auto py-12 px-4">
-            <div className='flex justify-between '>
+    const toggleComments = (postId: string) => {
+        setExpandedComments(prev => ({
+            ...prev,
+            [postId]: !prev[postId]
+        }))
+        if (!commentPages[postId]) {
+            setCommentPages(prev => ({ ...prev, [postId]: 1 }))
+        }
+    }
 
-                <Tabs defaultValue="All" className="mb-8">
-                    <TabsList>
+    const loadMoreComments = (postId: string) => {
+        setCommentPages(prev => ({ ...prev, [postId]: (prev[postId] || 1) + 1 }))
+    }
+
+    return (
+        <div className="container mx-auto py-6 px-4">
+            <div className='flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center mb-6'>
+                <Tabs defaultValue="All" className='w-full md:w-auto'>
+                    <TabsList className="flex flex-wrap">
                         {categories.map(category => (
                             <TabsTrigger
                                 key={category}
                                 value={category}
                                 onClick={() => handleCategoryChange(category)}
+                                className="px-3 py-1 text-sm"
                             >
                                 {category}
                             </TabsTrigger>
                         ))}
-
-                        <DatePickerWithRange />
                     </TabsList>
                 </Tabs>
 
-                <div className="mb-8 flex gap-3 justify-center items-center">
+                <div className='w-full md:w-auto'>
+                    <DatePickerWithRange />
+                </div>
+
+                <div className="flex w-full md:w-auto items-center space-x-2">
                     <Input
                         type="search"
                         placeholder="Search posts..."
                         value={searchQuery}
                         onChange={handleSearch}
-                        className="min-w-80"
+                        className="w-full md:w-64"
                     />
-                    <Button variant="default"><Search size={16} /></Button>
+                    <Button variant="default" size="icon"><Search size={16} /></Button>
                 </div>
             </div>
 
 
 
-
-            <div className=" flex gap-4">
-                <div className="left flex-[1]  hidden md:block">
-                    <Card className='min-h-screen'>
-                        <CardTitle className='text-center text-base mt-4'>Events</CardTitle>
+            <div className="flex flex-col md:flex-row gap-4">
+                <div className="hidden md:block md:w-1/4">
+                    <Card className='sticky top-4'>
+                        <CardHeader>
+                            <CardTitle className='text-center text-lg'>Events</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {/* Add event content here */}
+                        </CardContent>
                     </Card>
                 </div>
-                <div className="mid flex-[2] ">
+
+                <div className="w-full md:w-1/2">
                     {posts?.map((post) => (
-                        <Card key={post.id} className="overflow-hidden mb-3">
+                        <Card key={post.id} className="overflow-hidden mb-6">
                             <CardHeader>
                                 <div className="flex items-center space-x-4">
                                     <Avatar>
@@ -122,10 +144,10 @@ export default function SocialBlogPage() {
                                     <div>
                                         <CardTitle className="text-lg">{post.author.name}</CardTitle>
                                         <CardDescription>
-                                            <span className="flex items-center">
-                                                <Calendar className="mr-1" size={14} />
+                                            <span className="flex items-center text-xs">
+                                                <Calendar className="mr-1" size={12} />
                                                 {new Date(post.createdAt).toLocaleDateString('en-GB')}
-                                                <Clock className="ml-2 mr-1" size={14} />
+                                                <Clock className="ml-2 mr-1" size={12} />
                                                 {post.readTime} min read
                                             </span>
                                         </CardDescription>
@@ -139,7 +161,7 @@ export default function SocialBlogPage() {
                                     alt={post.title}
                                     width={600}
                                     height={400}
-                                    className="w-full h-64 object-cover rounded-md mb-4"
+                                    className="w-full h-48 md:h-64 object-cover rounded-md mb-4"
                                 />
                                 <p className="text-gray-600 mb-4">{post.content}</p>
                                 <Badge variant="secondary" className="mb-2">
@@ -150,38 +172,60 @@ export default function SocialBlogPage() {
                             <CardFooter className="flex flex-col items-start space-y-4">
                                 <div className="flex justify-between w-full">
                                     <Button variant="ghost" onClick={() => handleLike(post.id)}>
-                                        <ThumbsUp className="mr-2" size={16} /> {post.likes} Likes
+                                        <ThumbsUp className="mr-2" size={16} /> {post.likes}
                                     </Button>
                                     <Button variant="ghost" onClick={() => handleShare(post.id)}>
-                                        <Share2 className="mr-2" size={16} /> {post.shares} Shares
+                                        <Share2 className="mr-2" size={16} /> {post.shares}
                                     </Button>
-                                    <Button variant="ghost">
-                                        <MessageCircle className="mr-2" size={16} /> {post.comments.length} Comments
+                                    <Button variant="ghost" onClick={() => toggleComments(post.id)}>
+                                        <MessageCircle className="mr-2" size={16} />
+                                        {post.comments.length}
+                                        {expandedComments[post.id] ? <ChevronUp size={16} /> : <ChevronDown size={16} />}
                                     </Button>
                                 </div>
-                                <div className="w-full space-y-2">
-                                    {post.comments.map(comment => (
-                                        <div key={comment.id} className="bg-gray-100 p-2 rounded">
-                                            <p className="font-semibold">{comment.author}</p>
-                                            <p>{comment.content}</p>
+                                {expandedComments[post.id] && (
+                                    <>
+                                        <div className="w-full space-y-2">
+                                            {post.comments.slice(0, commentPages[post.id] * 10).map(comment => (
+                                                <div key={comment.id} className="bg-gray-100 p-2 rounded">
+                                                    <p className="font-semibold">{comment.author}</p>
+                                                    <p>{comment.content}</p>
+                                                </div>
+                                            ))}
+                                            {post.comments.length > commentPages[post.id] * 10 && (
+                                                <Button variant="link" onClick={() => loadMoreComments(post.id)}>
+                                                    Load more comments
+                                                </Button>
+                                            )}
                                         </div>
-                                    ))}
-                                </div>
-                                <div className="flex w-full space-x-2">
-                                    <Textarea
-                                        placeholder="Write a comment..."
-                                        value={newComment}
-                                        onChange={(e) => setNewComment(e.target.value)}
-                                    />
-                                    <Button onClick={() => handleComment(post.id)}>Comment</Button>
-                                </div>
+
+                                        <div className="flex w-full space-x-2">
+                                            <Textarea
+                                                placeholder="Write a comment..."
+                                                value={newComment}
+                                                onChange={(e) => setNewComment(e.target.value)}
+                                                className="w-full"
+                                            />
+                                            <Button onClick={() => handleComment(post.id)}>Post</Button>
+                                        </div>
+
+                                    </>
+
+                                )}
+
                             </CardFooter>
                         </Card>
                     ))}
                 </div>
-                <div className="right flex-[1] hidden md:block">
-                    <Card className='min-h-screen'>
-                        <CardTitle className='text-center text-base mt-4'> Live chat</CardTitle>
+
+                <div className="hidden md:block md:w-1/4">
+                    <Card className='sticky top-4'>
+                        <CardHeader>
+                            <CardTitle className='text-center text-lg'>Live Chat</CardTitle>
+                        </CardHeader>
+                        <CardContent>
+                            {/* Add live chat content here */}
+                        </CardContent>
                     </Card>
                 </div>
             </div>

@@ -4,6 +4,7 @@ import React, { useState } from 'react'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { HomeIcon, PenToolIcon, BarChartIcon, MessageSquare, ChevronLeftIcon, ChevronRightIcon, MessageCircleMore, Presentation, CalendarCheck, Brain, HandCoins, HandCoinsIcon, User2, Settings2, PhoneOutgoing, Image, Video, AudioWaveform, AudioLines, File } from 'lucide-react'
+import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from '../ui/tooltip'
 
 const menuItems = [
   { href: '/admin/dashboard', icon: HomeIcon, label: 'Overview' },
@@ -24,13 +25,13 @@ const menuItems = [
 ]
 
 export function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false)
+  const [isCollapsed, setIsCollapsed] = useState(true)
   const pathname = usePathname()
 
   const toggleSidebar = () => setIsCollapsed(!isCollapsed)
 
   return (
-    <div className={`flex flex-col h-full transition-all duration-300 ease-in-out ${isCollapsed ? 'w-16' : 'w-64'}`}>
+    <div className={`flex flex-col h-full rounded-lg border ${isCollapsed ? 'w-16' : 'w-52'}`}>
       <div className="flex items-center justify-between p-4">
         {!isCollapsed && <h2 className="text-xl font-semibold">Admin Panel</h2>}
         <button
@@ -44,19 +45,34 @@ export function Sidebar() {
         {menuItems.map((item) => {
           const isActive = pathname === item.href
           return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`flex items-center px-4 py-2 rounded-md transition-colors duration-200 
+            <TooltipProvider delayDuration={0}>
+              <Tooltip>
+                <TooltipTrigger className='w-full'>
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className={`flex items-center px-4 py-2 rounded-md transition-colors duration-200 
                 ${isActive ? 'bg-stone-200 text-stone-900' : 'text-stone-700 hover:bg-stone-200 hover:text-stone-900'}
                 ${isCollapsed ? 'justify-center' : ''}`}
-            >
-              <item.icon className={`h-4 w-4 ${isCollapsed ? '' : 'mr-3'}`} />
-              {!isCollapsed && <span>{item.label}</span>}
-            </Link>
+                  >
+
+                    <item.icon className={`h-4 w-4 ${isCollapsed ? '' : 'mr-3'}`} />
+                    {!isCollapsed && <span>{item.label}</span>}
+                  </Link>
+                </TooltipTrigger>
+                {
+                  isCollapsed && (
+                    <TooltipContent>
+                      <span>{item.label}</span>
+                    </TooltipContent>
+                  )
+                }
+
+              </Tooltip>
+            </TooltipProvider>
           )
         })}
       </nav>
-    </div>
+    </div >
   )
 }
