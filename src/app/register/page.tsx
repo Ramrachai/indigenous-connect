@@ -16,6 +16,9 @@ import Image from 'next/image'
 import banner2 from "@/assets/banner2.jpg"
 import Link from 'next/link'
 
+const MAX_FILE_SIZE = 1024 * 1024 // 1MB
+const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif"]
+
 const registerSchema = z.object({
   fullname: z.string().min(2, 'Fullname must be at least 2 characters'),
   email: z.string().email('Invalid email address'),
@@ -27,19 +30,14 @@ const registerSchema = z.object({
   ethnicity: z.string().optional(),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string(),
-  avatar: z.any()
-    .optional()
+  avatar: z
+    .any()
+    .refine((files) => files?.length == 1, "Photo is required.")
+    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Photo must be less than 1MB.`)
     .refine(
-      (file) => {
-        if (typeof window === 'undefined') return true; // Server-side
-        return file instanceof FileList;
-      },
-      "Invalid file"
+      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
+      ".jpg, .jpeg, .png and .gif files are accepted."
     )
-    .transform(file => {
-      if (typeof window === 'undefined') return undefined; // Server-side
-      return file?.[0] ?? undefined;
-    }),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -62,8 +60,8 @@ export default function RegisterForm() {
     try {
       const formData = new FormData()
       Object.entries(data).forEach(([key, value]) => {
-        if (key === 'avatar' && value instanceof File) {
-          formData.append('avatar', value)
+        if (key === 'avatar' && value instanceof FileList) {
+          formData.append('avatar', value[0])
         } else if (value !== undefined && value !== null) {
           formData.append(key, value.toString())
         }
@@ -185,7 +183,7 @@ export default function RegisterForm() {
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
           </div>
           <div className="space-y-2">
-            <Label htmlFor="register-avatar">Upload your avatar</Label>
+            <Label htmlFor="register-avatar">Upload your avatar(*Max size 1MB)</Label>
             <Input
               id="register-avatar"
               type="file"
@@ -196,6 +194,9 @@ export default function RegisterForm() {
                 handleAvatarChange(e);
               }}
             />
+            {errors.avatar && errors.avatar.message && (
+              <p className="text-red-500 text-sm">{errors.avatar.message as string}</p>
+            )}
             {avatarPreview && (
               <div className="mt-2 flex justify-center">
                 <img src={avatarPreview} alt="Avatar Preview" className="h-20 w-20 object-cover rounded-full border-2 border-primary" />
