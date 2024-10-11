@@ -14,6 +14,10 @@ import { Calendar, Clock, User, Tag, TrendingUp, Search, Zap, Share2, ThumbsUp, 
 import { samplePosts } from './data'
 import { DatePickerWithRange } from '@/components/ui/dateRange'
 
+import dynamic from 'next/dynamic';
+
+const CustomEditor = dynamic(() => import('@/components/CKEditor'), { ssr: false });
+
 const categories = ['All', 'Culture', 'Health', 'Environment', 'Art', 'Politics']
 
 export default function SocialBlogPage() {
@@ -86,6 +90,10 @@ export default function SocialBlogPage() {
 
     return (
         <div className="container mx-auto py-6 px-4">
+            <div className="pb-4">
+                <CustomEditor />
+            </div>
+
             <div className='flex flex-col md:flex-row flex-wrap gap-4 justify-between items-center mb-6'>
                 <Tabs defaultValue="All" className='w-full md:w-auto'>
                     <TabsList className="flex gap-2 overflow-x-auto scrollbar-hide">
