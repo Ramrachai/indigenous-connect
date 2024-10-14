@@ -9,6 +9,7 @@ import banner1 from "@/assets/banner1.jpg"
 
 export default function HomePage() {
   console.log("Hello from zerocoolmong");
+  console.log("Hello from Diamond");
   const [activeFeature, setActiveFeature] = useState(0)
 
   const features = [
