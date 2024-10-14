@@ -7,7 +7,7 @@ import Image from "next/image";
 import { useState } from "react";
 import banner1 from "@/assets/banner1.jpg";
 
-console.log("Hello from yourname");
+console.log("Hello from Rimrachai Marma");
 export default function HomePage() {
   const [activeFeature, setActiveFeature] = useState(0);
 
