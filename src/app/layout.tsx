@@ -1,17 +1,17 @@
 // src/app/layout.tsx
 import type { Metadata } from "next";
-import { Roboto } from 'next/font/google'
+// import { Roboto } from '@next/font/google';
 import "./globals.css";
 import { Header } from '@/components/layout/Header';
 import { Footer } from '@/components/layout/Footer';
 import { AuthProvider } from '@/components/SessionProvider';
 import { Toaster } from 'react-hot-toast';
-const roboto = Roboto({
-  weight: ['100', '300', '400', '500', '700', '900'],
-  style: ['normal', 'italic'],
-  subsets: ['latin'],
-  display: 'swap',
-})
+// const roboto = Roboto({
+//   weight: ['100', '300', '400', '500', '700', '900'],
+//   style: ['normal', 'italic'],
+//   subsets: ['latin'],
+//   display: 'swap',
+// })
 
 
 export const metadata: Metadata = {
@@ -26,7 +26,7 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={`${roboto.className} antialiased flex flex-col `}>
+      <body className={` antialiased flex flex-col `}>
         <AuthProvider>
           <Toaster />
           <Header />
