@@ -11,6 +11,9 @@ importers:
       '@hookform/resolvers':
         specifier: ^3.9.0
         version: 3.9.0(react-hook-form@7.53.0(react@18.3.1))
+      '@next/font':
+        specifier: ^14.2.15
+        version: 14.2.15(next@14.2.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.79.4))
       '@radix-ui/react-avatar':
         specifier: ^1.1.1
         version: 1.1.1(@types/react-dom@18.3.0)(@types/react@18.3.10)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
@@ -329,6 +332,11 @@ packages:
 
   '@next/eslint-plugin-next@14.2.13':
     resolution: {integrity: sha512-z8Mk0VljxhIzsSiZUSdt3wp+t2lKd+jk5a9Jsvh3zDGkItgDMfjv/ZbET6HsxEl/fSihVoHGsXV6VLyDH0lfTQ==}
+
+  '@next/font@14.2.15':
+    resolution: {integrity: sha512-QopYhBmCDDrNDynbi+ZD1hDZXmQXVFo7TmAFp4DQgO/kogz1OLbQ92hPigJbj572eZ3GaaVxNIyYVn3/eAsehg==}
+    peerDependencies:
+      next: '*'
 
   '@next/swc-darwin-arm64@14.2.13':
     resolution: {integrity: sha512-IkAmQEa2Htq+wHACBxOsslt+jMoV3msvxCn0WFSfJSkv/scy+i/EukBKNad36grRxywaXUYJc9mxEGkeIs8Bzg==}
@@ -2782,6 +2790,10 @@ snapshots:
   '@next/eslint-plugin-next@14.2.13':
     dependencies:
       glob: 10.3.10
+
+  '@next/font@14.2.15(next@14.2.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.79.4))':
+    dependencies:
+      next: 14.2.13(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(sass@1.79.4)
 
   '@next/swc-darwin-arm64@14.2.13':
     optional: true
