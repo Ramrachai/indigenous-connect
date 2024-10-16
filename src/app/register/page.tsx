@@ -1,6 +1,6 @@
 "use client"
 
-import React from 'react'
+import React, { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
@@ -8,16 +8,14 @@ import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Icons } from '@/components/ui/icons'
-import { ArrowLeftIcon, Eye, EyeOff, UserPlus } from 'lucide-react'
+import { ArrowLeftIcon, Eye, EyeOff, UserPlus, Camera } from 'lucide-react'
 import toast from 'react-hot-toast'
 import { API_URL } from '@/config/api'
 import { useRouter } from 'next/navigation'
 import Image from 'next/image'
 import banner2 from "@/assets/banner2.jpg"
 import Link from 'next/link'
-
-const MAX_FILE_SIZE = 1024 * 1024 // 1MB
-const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/gif"]
+import { FaceLivenessCheck } from '@/components/FaceLivenessCheck'
 
 const registerSchema = z.object({
   fullname: z.string().min(2, 'Fullname must be at least 2 characters'),
@@ -30,14 +28,7 @@ const registerSchema = z.object({
   ethnicity: z.string().optional(),
   password: z.string().min(6, 'Password must be at least 6 characters'),
   confirmPassword: z.string(),
-  avatar: z
-    .any()
-    .refine((files) => files?.length == 1, "Photo is required.")
-    .refine((files) => files?.[0]?.size <= MAX_FILE_SIZE, `Photo must be less than 1MB.`)
-    .refine(
-      (files) => ACCEPTED_IMAGE_TYPES.includes(files?.[0]?.type),
-      ".jpg, .jpeg, .png and .gif files are accepted."
-    )
+  faceImage: z.string().min(1, "Face image is required"),
 }).refine((data) => data.password === data.confirmPassword, {
   message: "Passwords don't match",
   path: ["confirmPassword"],
@@ -45,46 +36,72 @@ const registerSchema = z.object({
 
 type RegisterFormData = z.infer<typeof registerSchema>
 
+function FaceCheck({ onImageCapture }: { onImageCapture: (imageDataUrl: string) => void }) {
+  const [faceImage, setFaceImage] = useState<string | null>(null)
+
+  const captureImage = async () => {
+    try {
+      const stream = await navigator.mediaDevices.getUserMedia({ video: true })
+      const video = document.createElement('video')
+      video.srcObject = stream
+      await video.play()
+
+      const canvas = document.createElement('canvas')
+      canvas.width = video.videoWidth
+      canvas.height = video.videoHeight
+      canvas.getContext('2d')?.drawImage(video, 0, 0)
+      
+      const imageDataUrl = canvas.toDataURL('image/jpeg')
+      setFaceImage(imageDataUrl)
+      onImageCapture(imageDataUrl)
+
+      stream.getTracks().forEach(track => track.stop())
+    } catch (error) {
+      console.error('Error capturing image:', error)
+      toast.error("Failed to capture image")
+    }
+  }
+
+  return (
+    <div className="space-y-4">
+      <div>
+        <Label>Face Verification</Label>
+        <Button type="button" onClick={captureImage} className="w-full">
+          <Camera className="mr-2 h-4 w-4" /> Capture Face
+        </Button>
+        {faceImage && <img src={faceImage} alt="Captured face" className="mt-2 w-full rounded-md" />}
+      </div>
+    </div>
+  )
+}
+
 export default function RegisterForm() {
-  const [showPassword, setShowPassword] = React.useState(false)
-  const [showConfirmPassword, setShowConfirmPassword] = React.useState(false)
-  const [avatarPreview, setAvatarPreview] = React.useState<string | null>(null)
+  const [showPassword, setShowPassword] = useState(false)
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false)
   const router = useRouter()
 
-  const { register, handleSubmit, formState: { errors, isSubmitting }, reset } = useForm<RegisterFormData>({
+  const { register, handleSubmit, formState: { errors, isSubmitting }, reset, setValue } = useForm<RegisterFormData>({
     resolver: zodResolver(registerSchema),
     mode: "onChange"
   })
 
   const onSubmit = async (data: RegisterFormData) => {
     try {
-      const formData = new FormData()
-      Object.entries(data).forEach(([key, value]) => {
-        if (key === 'avatar' && value instanceof FileList) {
-          formData.append('avatar', value[0])
-        } else if (value !== undefined && value !== null) {
-          formData.append(key, value.toString())
-        }
-      })
-
       const response = await fetch(`${API_URL}/auth/register`, {
         method: 'POST',
-        body: formData,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
       })
 
       if (!response.ok) {
-        let errorData;
-        try {
-          errorData = await response.json();
-        } catch (err) {
-          throw new Error('Registration failed');
-        }
+        const errorData = await response.json()
         throw new Error(errorData.message || 'Registration failed')
       }
 
       toast.success("Registration successful! Please log in now.")
       reset()
-      setAvatarPreview(null)
       router.push('/login')
     } catch (error) {
       if (error instanceof Error) {
@@ -92,17 +109,6 @@ export default function RegisterForm() {
       } else {
         toast.error('An unexpected error occurred')
       }
-    }
-  }
-
-  const handleAvatarChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (file) {
-      const reader = new FileReader()
-      reader.onloadend = () => {
-        setAvatarPreview(reader.result as string)
-      }
-      reader.readAsDataURL(file)
     }
   }
 
@@ -124,7 +130,9 @@ export default function RegisterForm() {
           <p className='text-sm mt-6 sm:mt-10 text-center'>Already have an account ? <Link href={'/login'} className='underline hover:text-blue-500'>Login here</Link> </p>
         </div>
         <form onSubmit={handleSubmit(onSubmit)} className="md:w-1/2 space-y-6">
+        <FaceLivenessCheck />
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+
             <div className="space-y-2">
               <Label htmlFor="register-fullname">Full name</Label>
               <Input id="register-fullname" {...register('fullname')} />
@@ -182,27 +190,8 @@ export default function RegisterForm() {
             </div>
             {errors.confirmPassword && <p className="text-red-500 text-sm">{errors.confirmPassword.message}</p>}
           </div>
-          <div className="space-y-2">
-            <Label htmlFor="register-avatar">Upload your avatar(*Max size 1MB)</Label>
-            <Input
-              id="register-avatar"
-              type="file"
-              accept="image/*"
-              {...register('avatar')}
-              onChange={(e) => {
-                register('avatar').onChange(e);
-                handleAvatarChange(e);
-              }}
-            />
-            {errors.avatar && errors.avatar.message && (
-              <p className="text-red-500 text-sm">{errors.avatar.message as string}</p>
-            )}
-            {avatarPreview && (
-              <div className="mt-2 flex justify-center">
-                <img src={avatarPreview} alt="Avatar Preview" className="h-20 w-20 object-cover rounded-full border-2 border-primary" />
-              </div>
-            )}
-          </div>
+          <FaceCheck onImageCapture={(imageDataUrl) => setValue('faceImage', imageDataUrl)} />
+          {errors.faceImage && <p className="text-red-500 text-sm">{errors.faceImage.message}</p>}
           <Button type="submit" className="w-full">
             {isSubmitting ? (
               <>
