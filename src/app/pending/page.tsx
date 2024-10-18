@@ -8,6 +8,7 @@ import { signOut, useSession } from "next-auth/react"
 import { useRouter } from "next/navigation"
 import { useEffect } from "react"
 import { Clock, Mail, Phone } from "lucide-react"
+import Image from "next/image"
 
 export default function PendingPage() {
   const { data: session, status } = useSession()
@@ -33,11 +34,8 @@ export default function PendingPage() {
     <div className="flex items-center justify-center min-h-screen bg-gradient-to-br from-blue-100 to-indigo-100 p-4">
       <Card className="w-full max-w-md">
         <CardHeader className="text-center">
-          <div className="mx-auto mb-4">
-            <Avatar className="w-24 h-24">
-              <AvatarImage src={session.user.avatar} alt={session.user.fullname} />
-              <AvatarFallback>{session.user.fullname.charAt(0)}</AvatarFallback>
-            </Avatar>
+          <div className="mx-auto mb-4 h-20 w-20 border-2 border-gray-600 rounded-full overflow-hidden">
+            <Image src={session.user?.avatar} alt={session.user?.fullname} height={80} width={80} quality={80} className="object-cover w-full h-full" />
           </div>
           <CardTitle className="text-2xl font-bold">{session.user.fullname}</CardTitle>
           <CardDescription className="text-indigo-600 font-semibold">Account Pending Approval</CardDescription>
@@ -63,7 +61,7 @@ export default function PendingPage() {
           </div>
         </CardContent>
         <CardFooter className="flex flex-col space-y-2">
-          <Button onClick={() => signOut({callbackUrl: '/'})} variant="outline" className="w-full">
+          <Button onClick={() => signOut({ callbackUrl: '/' })} variant="outline" className="w-full">
             Sign Out
           </Button>
           <p className="text-sm text-center text-gray-500">
