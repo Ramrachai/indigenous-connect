@@ -6,6 +6,12 @@ import type { NextRequest } from 'next/server'
 export async function middleware(req: NextRequest) {
     const token = await getToken({ req, secret: process.env.NEXTAUTH_SECRET })
 
+    if(token && token.status ==='pending') {
+        if(req.nextUrl.pathname !== "/pending") {
+            return NextResponse.redirect(new URL('/pending', req.url))
+        }
+    } 
+    
     const isAuth = !!token
     const isAuthPage = req.nextUrl.pathname.startsWith('/admin/login')
     const isBlogPage = req.nextUrl.pathname.startsWith('/blog')

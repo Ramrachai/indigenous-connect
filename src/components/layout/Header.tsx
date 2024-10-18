@@ -53,7 +53,7 @@ export function Header() {
     router.push(data.url)
   }
 
-  if (!session) return null
+  if (!session || session?.user.status =='pending') return null
 
   return (
     <header className="bg-white shadow-sm sticky top-0 z-50">
